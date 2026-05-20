@@ -1,0 +1,211 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Grama Khata</title>
+
+    <style>
+        body {
+            font-family: Arial;
+            background: linear-gradient(135deg, #4facfe, #00f2fe);
+            margin: 0;
+            padding: 0;
+        }
+
+        .container {
+            max-width: 400px;
+            margin: auto;
+            padding: 20px;
+        }
+
+        h1 {
+            text-align: center;
+            color: white;
+        }
+
+        .card {
+            background: white;
+            padding: 15px;
+            margin: 10px 0;
+            border-radius: 15px;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+        }
+
+        input {
+            width: 100%;
+            padding: 10px;
+            margin-top: 10px;
+            border-radius: 10px;
+            border: 1px solid #ccc;
+        }
+
+        button {
+            width: 100%;
+            padding: 10px;
+            margin-top: 10px;
+            border: none;
+            border-radius: 10px;
+            font-weight: bold;
+            cursor: pointer;
+        }
+
+        .credit {
+            background: #4CAF50;
+            color: white;
+        }
+
+        .debit {
+            background: #f44336;
+            color: white;
+        }
+
+        .balance-card {
+            text-align: center;
+            background: white;
+            padding: 20px;
+            border-radius: 15px;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+        }
+
+        #balance {
+            font-size: 30px;
+            color: #333;
+        }
+
+        ul {
+            list-style: none;
+            padding: 0;
+        }
+
+        li {
+            padding: 12px;
+            margin: 6px 0;
+            background: #f1f1f1;
+            border-radius: 10px;
+            cursor: pointer;
+            display: flex;
+            justify-content: space-between;
+        }
+
+        li:hover {
+            background: #ddd;
+        }
+
+        .reminder-btn {
+            background: #2196F3;
+            color: white;
+        }
+
+        #msg {
+            text-align: center;
+            margin-top: 10px;
+            color: white;
+        }
+
+    </style>
+</head>
+
+<body>
+
+<div class="container">
+    <h1>📒 Grama Khata</h1>
+
+    <div class="card">
+        <input id="name" placeholder="👤 Customer Name">
+        <button onclick="addCustomer()">Add Customer</button>
+    </div>
+
+    <div class="card">
+        <h3>Customers</h3>
+        <ul id="customerList"></ul>
+    </div>
+
+    <div class="card">
+        <input id="amount" placeholder="💰 Amount">
+        <button class="credit" onclick="addCredit()">+ Credit</button>
+        <button class="debit" onclick="addDebit()">- Debit</button>
+    </div>
+
+    <div class="balance-card">
+        <h2 id="balance">₹ 0</h2>
+        <p id="currentCustomer">No customer selected</p>
+    </div>
+
+    <button class="reminder-btn" onclick="sendReminder()">📩 Send Reminder</button>
+    <p id="msg"></p>
+</div>
+
+<script>
+    let customers = JSON.parse(localStorage.getItem("customers")) || [];
+    let currentIndex = null;
+
+    function addCustomer() {
+        let name = document.getElementById("name").value;
+        if (!name) return alert("Enter name");
+
+        customers.push({ name: name, balance: 0 });
+        save();
+        render();
+    }
+
+    function render() {
+        let list = document.getElementById("customerList");
+        list.innerHTML = "";
+
+        customers.forEach((c, index) => {
+            let li = document.createElement("li");
+            li.innerHTML = `<span>${c.name}</span> <span>₹${c.balance}</span>`;
+            li.onclick = () => selectCustomer(index);
+            list.appendChild(li);
+        });
+    }
+
+    function selectCustomer(index) {
+        currentIndex = index;
+        let c = customers[index];
+
+        document.getElementById("balance").innerText = "₹ " + c.balance;
+        document.getElementById("currentCustomer").innerText = c.name;
+    }
+
+    function addCredit() {
+        if (currentIndex === null) return alert("Select customer");
+
+        let amt = Number(document.getElementById("amount").value);
+        if (!amt) return alert("Enter amount");
+
+        customers[currentIndex].balance += amt;
+        save();
+        render();
+        selectCustomer(currentIndex);
+    }
+
+    function addDebit() {
+        if (currentIndex === null) return alert("Select customer");
+
+        let amt = Number(document.getElementById("amount").value);
+        if (!amt) return alert("Enter amount");
+
+        customers[currentIndex].balance -= amt;
+        save();
+        render();
+        selectCustomer(currentIndex);
+    }
+
+    function save() {
+        localStorage.setItem("customers", JSON.stringify(customers));
+    }
+
+    function sendReminder() {
+        if (currentIndex === null) return alert("Select customer");
+
+        let c = customers[currentIndex];
+        let msg = `📢 Namaskara ${c.name}, your due is ₹${c.balance}`;
+        document.getElementById("msg").innerText = msg;
+    }
+
+    render();
+</script>
+
+</body>
+</html>
