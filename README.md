@@ -31,4 +31,6 @@ A simple digital ledger to:
 - Android app version
 
 ## Screenshots
-(Add 1 screenshot)
+## 📸 Screenshots
+
+![App Screenshot](Screenshot.png)
