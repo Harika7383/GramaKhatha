@@ -60,9 +60,9 @@ Grama Khata is an Android application that replaces manual ledger books with a s
 --
 
 ## Future Improvements
- WhatsApp reminder integration
-Cloud database sync (Firebase)
-User login system
+1. WhatsApp reminder integration
+2. Cloud database sync (Firebase)
+3. User login system
 
 ---
 
@@ -72,10 +72,10 @@ This project is built to help small shopkeepers maintain digital records of cust
 ---
 
 ## Impact
-Reduces manual bookkeeping errors
-Saves time in calculations
-Improves transparency in credit system
-Easy tracking of customer dues
+1. Reduces manual bookkeeping errors
+2. Saves time in calculations
+3. Improves transparency in credit system
+4. Easy tracking of customer dues
 
 ---
 
